@@ -2,6 +2,7 @@ import Image from "next/image";
 import { Github, Mail } from "lucide-react";
 import PinnedProject from "@/components/pinProject";
 import DiscordSvg from "@/components/discordSvg";
+import Footer from "@/components/footer";
 
 export default function Home() {
   return (
@@ -31,7 +32,7 @@ export default function Home() {
                 className="text-white"
               >
                 <Github className="inline-block mr-2" />
-                GitHub
+                <span className="transition hover:text-blue-400">GitHub</span>
               </a>
             </li>
           </ul>
@@ -150,9 +151,6 @@ export default function Home() {
         </p>
       </div>
       <hr className="border-t border-white/30" />
-      <div className="p-8 text-center text-sm text-white/50">
-        {new Date().getFullYear()} BananaJeans. All {Math.random() < 0.5 ? "rights" : "lefts"} reserved.
-      </div>
     </div>
   );
 }
