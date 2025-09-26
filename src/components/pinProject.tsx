@@ -38,7 +38,7 @@ export default function PinnedProject({
             href={url}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-white"
+            className="text-white transition hover:text-blue-400"
           >
             {name}
           </a>

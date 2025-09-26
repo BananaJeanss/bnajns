@@ -1,6 +1,7 @@
 import Image from "next/image";
-import { Github } from "lucide-react";
+import { Github, Mail } from "lucide-react";
 import PinnedProject from "@/components/pinProject";
+import DiscordSvg from "@/components/discordSvg";
 
 export default function Home() {
   return (
@@ -55,7 +56,8 @@ export default function Home() {
       </div>
       <hr className="border-t border-white/30" />
       <div className="p-8">
-        <h2 className="text-2xl font-bold mb-4">Pinned Projects</h2>
+        <h2 className="text-2xl font-bold">Pinned Projects</h2>
+        <p className="mb-4">Some of my best projects, so far.</p>
         <div className="flex flex-wrap gap-4">
           <PinnedProject
             url="https://github.com/BananaJeanss/iRacingRPC"
@@ -94,6 +96,41 @@ export default function Home() {
             languages={["CPP"]}
           />
         </div>
+      </div>
+      <hr className="border-t border-white/30" />
+      <div className="p-8">
+        <h2 className="text-2xl font-bold mb-4">Contact</h2>
+        <p>
+          <Mail className="inline-block mr-2 mb-2" />
+          <a
+            href="mailto:bananajeansc@gmail.com"
+            className="transition hover:text-blue-400"
+          >
+            bananajeansc@gmail.com
+          </a>
+        </p>
+        <p className="flex items-center gap-2 mb-2">
+          <DiscordSvg className="w-6 h-6" />
+          <a
+            href="https://discord.com/users/269514812881502209"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="transition hover:text-blue-400"
+          >
+            BananaJeans
+          </a>
+        </p>
+        <p>
+          <Github className="inline-block mr-2 mb-2" />
+          <a
+            href="https://github.com/BananaJeanss"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="transition hover:text-blue-400"
+          >
+            BananaJeanss
+          </a>
+        </p>
       </div>
     </div>
   );
