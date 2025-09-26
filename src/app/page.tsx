@@ -43,6 +43,23 @@ export default function Home() {
           I'm BananaJeans, a developer, sim-racer, and all-around tech
           enthusiast from Estonia.
         </p>
+        <hr className="border-t border-white/30 mb-4 w-1/4" />
+        <img
+          src="https://readmefm.bnajns.hackclub.app/songdisplay?username=bananajeans&theme=dark&roundit=true"
+          alt="readmefm last.fm last played"
+          style={{ maxWidth: "40%", height: "auto", marginBottom: "1rem" }}
+        />
+        <p className="text-white/70 text-sm">
+          from{" "}
+          <a
+            href="https://readmefm.bnajns.hackclub.app"
+            className="text-red-400 transition hover:underline"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            readme.fm
+          </a>
+        </p>
       </div>
       <hr className="border-t border-white/30" />
       <div className="p-8">
@@ -131,6 +148,10 @@ export default function Home() {
             BananaJeanss
           </a>
         </p>
+      </div>
+      <hr className="border-t border-white/30" />
+      <div className="p-8 text-center text-sm text-white/50">
+        {new Date().getFullYear()} BananaJeans. All {Math.random() < 0.5 ? "rights" : "lefts"} reserved.
       </div>
     </div>
   );
