@@ -3,6 +3,7 @@ import { Github, Mail } from "lucide-react";
 import PinnedProject from "@/components/pinProject";
 import DiscordSvg from "@/components/discordSvg";
 import Footer from "@/components/footer";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -114,6 +115,7 @@ export default function Home() {
             languages={["CPP"]}
           />
         </div>
+        <p className="text-sm text-white/70">Full projects/repositories list viewable via <Link href="/projects" className="text-blue-400 hover:underline">/projects</Link>.</p>
       </div>
       <hr className="border-t border-white/30" />
       <div className="p-8">
