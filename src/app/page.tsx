@@ -1,8 +1,6 @@
-import Image from "next/image";
 import { Github, Mail } from "lucide-react";
 import PinnedProject from "@/components/pinProject";
 import DiscordSvg from "@/components/discordSvg";
-import Footer from "@/components/footer";
 import Link from "next/link";
 
 export default function Home() {
@@ -42,14 +40,16 @@ export default function Home() {
       <div className="p-8">
         <h2 className="text-2xl font-bold mb-4">About Me</h2>
         <p className="mb-4">
-          I'm BananaJeans, a developer, sim-racer, and all-around tech
+          I&apos;m BananaJeans, a developer, sim-racer, and all-around tech
           enthusiast from Estonia.
         </p>
         <hr className="border-t border-white/30 mb-4 w-1/4" />
+        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src="https://readmefm.bnajns.hackclub.app/songdisplay?username=bananajeans&theme=dark&roundit=true"
           alt="readmefm last.fm last played"
           style={{ maxWidth: "40%", height: "auto", marginBottom: "1rem" }}
+          loading="lazy"
         />
         <p className="text-white/70 text-sm">
           from{" "}

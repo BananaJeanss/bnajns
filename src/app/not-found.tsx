@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 
 const list404s = [
   "Page Not Found",
@@ -36,9 +37,9 @@ export default function Custom404() {
         {randomMessage || "Page Not Found"}
       </p>
       <p>
-        <a href="/" className="mt-6 text-blue-500 hover:underline">
+        <Link href="/" className="mt-6 text-blue-500 hover:underline">
           Go back home 
-        </a>
+        </Link>
         <span> or </span>
         <button
           className="mt-6 text-blue-500 hover:underline cursor-pointer"

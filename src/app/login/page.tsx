@@ -3,7 +3,9 @@ import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useSearchParams, useRouter } from "next/navigation";
 
-export default function adminLogin() {
+import { Suspense } from "react";
+
+function AdminLoginInner() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [err, setErr] = useState("");
@@ -59,5 +61,13 @@ export default function adminLogin() {
         </form>
       </div>
     </div>
+  );
+}
+
+export default function AdminLogin() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <AdminLoginInner />
+    </Suspense>
   );
 }

@@ -28,14 +28,14 @@ export default async function Projects() {
       <hr className="border-t border-white/30 w-3/4 my-4" />
       <div className="flex flex-wrap gap-2 justify-center mt-4 w-full">
         {data
-          .filter((repo: any) => !repo.fork) // excludes forks
-          .filter((repo: any) => repo.owner.login === "BananaJeanss") // excludes repos ion own
+          .filter((repo: { fork: boolean }) => !repo.fork) // excludes forks
+          .filter((repo: { owner: { login: string } }) => repo.owner.login === "BananaJeanss") // excludes repos ion own
           .sort(
-            (a: any, b: any) =>
+            (a: { updated_at: string }, b: { updated_at: string }) =>
               new Date(b.updated_at).getTime() -
               new Date(a.updated_at).getTime()
           ) // sort by recently updated
-          .map((repo: any) => (
+          .map((repo: { id: number; html_url: string; name: string; description: string; language: string; updated_at: string }) => (
             <PinnedProject
               key={repo.id}
               url={repo.html_url}

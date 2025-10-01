@@ -26,7 +26,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         username: { label: "Username", type: "text" },
         password: { label: "Password", type: "password" },
       },
-      async authorize(rawCreds: any) {
+      async authorize(rawCreds: { [key: string]: unknown } | undefined) {
         const username = typeof rawCreds?.username === "string" ? rawCreds.username : undefined;
         const password = typeof rawCreds?.password === "string" ? rawCreds.password : undefined;
         if (!username || !password) {
@@ -54,7 +54,12 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       return token;
     },
     session({ session, token }) {
-      if (token.user) session.user = token.user as any;
+      if (token.user) session.user = {
+        id: (token.user as { id: string }).id,
+        name: (token.user as { name: string }).name,
+        email: (token.user as { email: string | undefined }).email ?? "",
+        emailVerified: (token.user as { emailVerified: Date | null | undefined }).emailVerified ?? null,
+      };
       return session;
     },
   },
