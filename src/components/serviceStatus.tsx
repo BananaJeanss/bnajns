@@ -9,22 +9,37 @@ export default async function ServiceStatus({
   description,
   url,
 }: ServiceStatusProps) {
-  const urlResp = await fetch(url); // fetch the endpoint
   let status = "down"; // assume down
   let uptime;
-  if (urlResp.status === 200) {
-    status = "up";
+  
+  try {
+    const urlResp = await fetch(url, { 
+      next: { revalidate: 60 } // cache for 60 seconds
+    });
+    
+    if (urlResp.status === 200) {
+      status = "up";
+      
+      // Only try to parse JSON if content-type is JSON
+      const contentType = urlResp.headers.get('content-type');
+      if (contentType?.includes('application/json')) {
+        const data = await urlResp.json();
+        if (data.uptime) {
+          // convert seconds to human readable format
+          const seconds = Math.floor(data.uptime);
+          const days = Math.floor(seconds / (3600 * 24));
+          const hours = Math.floor((seconds % (3600 * 24)) / 3600);
+          const minutes = Math.floor((seconds % 3600) / 60);
+          const secs = seconds % 60;
+          uptime = `${days}d ${hours}h ${minutes}m ${secs}s`;
+        }
+      }
+    }
+  } catch (error) {
+    console.error(`Failed to fetch status for ${title}:`, error);
+    status = "down";
   }
-  const data = await urlResp.json(); // if endpoint returns "uptime", it's displayed aswell
-  if (data.uptime) {
-    // convert seconds to human readable format
-    const seconds = Math.floor(data.uptime);
-    const days = Math.floor(seconds / (3600 * 24));
-    const hours = Math.floor((seconds % (3600 * 24)) / 3600);
-    const minutes = Math.floor((seconds % 3600) / 60);
-    const secs = seconds % 60;
-    uptime = `${days}d ${hours}h ${minutes}m ${secs}s`;
-  }
+
   return (
     <div className="border border-white/30 rounded p-4 mb-4">
       <div className="flex items-center mb-2 flex-row">

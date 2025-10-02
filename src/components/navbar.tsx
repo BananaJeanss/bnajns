@@ -18,11 +18,6 @@ export default function Navbar() {
             </Link>
           </li>
           <li>
-            <Link href="/blog" className="transition hover:underline hover:text-blue-400">
-              Blog
-            </Link>
-          </li>
-          <li>
             <Link href="/statuses" className="transition hover:underline hover:text-blue-400">
               Service Statuses
             </Link>
