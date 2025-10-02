@@ -1,6 +1,9 @@
 import ServiceStatus from "@/components/serviceStatus";
 import statuses from "./statuses.json"
 
+// dynamic because vercel is stupid and i hate it grrrr
+export const dynamic = 'force-dynamic';
+
 export default function Statuses() {
     // pull statuses from statuses.json first
     const serviceStatuses = Object.values(statuses);
