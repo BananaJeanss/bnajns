@@ -12,18 +12,28 @@ export default async function ServiceStatus({
   let status = "down"; // assume down
   let uptime;
   
+  console.log(`[ServiceStatus] Checking status for ${title} at ${url}`);
+  
   try {
     const urlResp = await fetch(url, { 
       next: { revalidate: 60 } // cache for 60 seconds
     });
     
+    console.log(`[ServiceStatus] ${title} - Response status: ${urlResp.status}`);
+    console.log(`[ServiceStatus] ${title} - Response headers:`, Object.fromEntries(urlResp.headers.entries()));
+    
     if (urlResp.status === 200) {
       status = "up";
+      console.log(`[ServiceStatus] ${title} - Status set to UP`);
       
       // Only try to parse JSON if content-type is JSON
       const contentType = urlResp.headers.get('content-type');
+      console.log(`[ServiceStatus] ${title} - Content-Type: ${contentType}`);
+      
       if (contentType?.includes('application/json')) {
         const data = await urlResp.json();
+        console.log(`[ServiceStatus] ${title} - JSON data:`, data);
+        
         if (data.uptime) {
           // convert seconds to human readable format
           const seconds = Math.floor(data.uptime);
@@ -32,13 +42,20 @@ export default async function ServiceStatus({
           const minutes = Math.floor((seconds % 3600) / 60);
           const secs = seconds % 60;
           uptime = `${days}d ${hours}h ${minutes}m ${secs}s`;
+          console.log(`[ServiceStatus] ${title} - Uptime: ${uptime}`);
         }
+      } else {
+        console.log(`[ServiceStatus] ${title} - Not JSON, skipping parse`);
       }
+    } else {
+      console.log(`[ServiceStatus] ${title} - Status code ${urlResp.status}, marking as DOWN`);
     }
   } catch (error) {
-    console.error(`Failed to fetch status for ${title}:`, error);
+    console.error(`[ServiceStatus] ${title} - Failed to fetch:`, error);
     status = "down";
   }
+  
+  console.log(`[ServiceStatus] ${title} - Final status: ${status}, uptime: ${uptime || 'N/A'}`);
 
   return (
     <div className="border border-white/30 rounded p-4 mb-4">
