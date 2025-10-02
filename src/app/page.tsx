@@ -21,7 +21,7 @@ export default function Home() {
         <div className="relative z-10 flex flex-col items-center">
           <h1 className="text-4xl font-bold text-white">BananaJeans</h1>
           <p className="text-white">I do a lot of things</p>
-          <hr className="my-4 w-150 border-white" />
+            <hr className="my-4 w-full sm:w-150 border-white" />
           <ul>
             <li>
               <a
@@ -48,7 +48,7 @@ export default function Home() {
         <img
           src="https://readmefm.bnajns.hackclub.app/songdisplay?username=bananajeans&theme=dark&roundit=true"
           alt="readmefm last.fm last played"
-          style={{ maxWidth: "40%", height: "auto", marginBottom: "1rem" }}
+          className="shadow-lg rounded-lg mb-2 h-auto max-w-full md: xl:w-175 lg:w-150 md:w-3/4 sm:w-full"
           loading="lazy"
         />
         <p className="text-white/70 text-sm">

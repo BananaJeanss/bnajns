@@ -39,7 +39,7 @@ export default function PinnedProject({
     return lang;
   };
   return (
-    <div className="w-1/4 border border-white/30 rounded-lg p-4 mb-4 hover:bg-white/5 transition flex flex-col justify-start">
+    <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 border border-white/30 rounded-lg p-4 mb-4 hover:bg-white/5 transition flex flex-col justify-start">
       <h3 className="text-lg font-bold flex justify-start">
         <div className="flex items-center gap-2">
           {languageList.map((lang) => (
