@@ -4,6 +4,20 @@ interface ServiceStatusProps {
   url: string;
 }
 
+const statusMessages: Record<number, string> = {
+  500: "Internal Server Error",
+  502: "Bad Gateway",
+  503: "Service Unavailable",
+  504: "Gateway Timeout",
+  522: "Connection Timed Out",
+  524: "A Timeout Occurred",
+  404: "Not Found",
+  429: "Too Many Requests",
+  520: "Unknown Error",
+  521: "Web Server Is Down",
+  523: "Origin Is Unreachable",
+};
+
 export default async function ServiceStatus({
   title,
   description,
@@ -11,29 +25,27 @@ export default async function ServiceStatus({
 }: ServiceStatusProps) {
   let status = "down"; // assume down
   let uptime;
-  
-  console.log(`[ServiceStatus] Checking status for ${title} at ${url}`);
-  
+  let statusCode = 0; // if applicable
+
   try {
-    const urlResp = await fetch(url, { 
-      next: { revalidate: 60 } // cache for 60 seconds
+    const urlResp = await fetch(url, {
+      headers: {
+        "User-Agent":
+          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36",
+        Accept: "application/json, text/plain, */*",
+      },
     });
-    
-    console.log(`[ServiceStatus] ${title} - Response status: ${urlResp.status}`);
-    console.log(`[ServiceStatus] ${title} - Response headers:`, Object.fromEntries(urlResp.headers.entries()));
-    
+
     if (urlResp.status === 200) {
       status = "up";
       console.log(`[ServiceStatus] ${title} - Status set to UP`);
-      
+
       // Only try to parse JSON if content-type is JSON
-      const contentType = urlResp.headers.get('content-type');
-      console.log(`[ServiceStatus] ${title} - Content-Type: ${contentType}`);
-      
-      if (contentType?.includes('application/json')) {
+      const contentType = urlResp.headers.get("content-type");
+
+      if (contentType?.includes("application/json")) {
         const data = await urlResp.json();
-        console.log(`[ServiceStatus] ${title} - JSON data:`, data);
-        
+
         if (data.uptime) {
           // convert seconds to human readable format
           const seconds = Math.floor(data.uptime);
@@ -44,19 +56,16 @@ export default async function ServiceStatus({
           uptime = `${days}d ${hours}h ${minutes}m ${secs}s`;
           console.log(`[ServiceStatus] ${title} - Uptime: ${uptime}`);
         }
-      } else {
-        console.log(`[ServiceStatus] ${title} - Not JSON, skipping parse`);
       }
     } else {
-      console.log(`[ServiceStatus] ${title} - Status code ${urlResp.status}, marking as DOWN`);
+      if (urlResp.status) {
+        statusCode = urlResp.status;
+      }
     }
   } catch (error) {
-    console.error(`[ServiceStatus] ${title} - Failed to fetch:`, error);
     status = "down";
   }
   
-  console.log(`[ServiceStatus] ${title} - Final status: ${status}, uptime: ${uptime || 'N/A'}`);
-
   return (
     <div className="border border-white/30 rounded p-4 mb-4">
       <div className="flex items-center mb-2 flex-row">
@@ -77,7 +86,12 @@ export default async function ServiceStatus({
       </div>
       <p className="text-sm text-white/60 mb-2">{description}</p>
       <p className="flex flex-row items-center gap-2">
-        Status: {status === "up" ? "Online" : "Down"}
+        Status: {status === "up" ? "Online" : "Down"}{" "}
+        {statusCode
+          ? `- ${statusCode} ${
+              statusMessages[statusCode] ? statusMessages[statusCode] : ""
+            }`
+          : ""}
         <span className="text-xs text-white/40 break-all transition hover:text-white/80">
           <a href={url} rel="noopener noreferrer" target="_blank">
             {url}
