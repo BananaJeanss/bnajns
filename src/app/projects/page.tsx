@@ -1,5 +1,7 @@
 import PinnedProject from "@/components/pinProject";
 
+export const dynamic = "force-dynamic";
+
 const reqUrl = "https://api.github.com/users/bananajeanss/repos";
 
 let cachedString: string | null = null;
